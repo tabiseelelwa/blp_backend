@@ -56,6 +56,8 @@ app.use(
   })
 );
 
+const Bdd = mysql.createConnection(options);
+
 // STOCKAGE DES FICHIERS (IMAGES) des articles
 const stockageImageArticle = multer.diskStorage({
   destination: (req, file, cb) => {
