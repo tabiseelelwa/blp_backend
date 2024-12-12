@@ -13,6 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: ["http://localhost:3000"],
@@ -25,7 +26,6 @@ app.use(express.static("public"));
 
 const options = {
   host: "localhost",
-  port: 3306,
   user: "root",
   password: "",
   database: "fizitech",
