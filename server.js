@@ -14,9 +14,12 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// const origin = ["http://localhost:3000"];
+const origin = ["https://backend.fizitech.org"];
+
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: origin,
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })
