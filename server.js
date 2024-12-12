@@ -29,10 +29,17 @@ app.use(express.static("public"));
 
 const options = {
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "fizitech",
+  user: "c2413927c_empereur",
+  password: "Le@12101995#",
+  database: "c2413927c_fizitech",
 };
+
+// const options = {
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "fizitech",
+// };
 
 const sessionStore = new MySQLStore(options);
 
