@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-const origin = ["http://localhost:3000"];
-// const origin = ["https://www.fizitech.org"];
+// const origin = ["http://localhost:3000"];
+const origin = ["https://www.fizitech.org"];
 
 app.use(
   cors({
