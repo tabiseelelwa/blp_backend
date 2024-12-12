@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// const origin = ["http://localhost:3000"];
-const origin = ["https://www.fizitech.org"];
+const origin = ["http://localhost:3000"];
+// const origin = ["https://www.fizitech.org"];
 
 app.use(
   cors({
@@ -55,14 +55,6 @@ app.use(
     },
   })
 );
-
-// CONNEXION A LA BASE DE DONNEES
-const Bdd = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "fizitech",
-});
 
 // STOCKAGE DES FICHIERS (IMAGES) des articles
 const stockageImageArticle = multer.diskStorage({
