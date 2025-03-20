@@ -94,9 +94,11 @@ app.get("/logout", (req, res) => {
 
 const formationsRoutes = require("./Routes/formations");
 const articlesRoutes = require("./Routes/article");
+const categRoutes = require("./Routes/categorie");
 
 app.use("/api/", formationsRoutes);
 app.use("/api/", articlesRoutes);
+app.use("/api/", categRoutes);
 
 const port = 8085;
 app.listen(port, () => {
