@@ -3,7 +3,6 @@ const router = express.Router();
 const bdd = require("../bdd/bdd");
 const multer = require("multer");
 const path = require("path");
-const moment = require("moment");
 
 // CREATION D'UNE FORMATION
 // Stockage des fichiers (IMAGES) des formations

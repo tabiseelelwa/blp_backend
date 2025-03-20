@@ -83,3 +83,5 @@ router.delete("/supprUser/:idUser", (req, res) => {
     return res.json(result);
   });
 });
+
+module.exports = router;
