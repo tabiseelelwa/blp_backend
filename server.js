@@ -5,13 +5,14 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 
-const origin = [process.env.ORIGIN_URL];
+const origin = [process.env.ORIGIN_URL || "https://fizitech.org"];
 
 app.use(
   cors({
     origin: origin,
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
+    allowedHeaders: "Content-Type,Authorization",
   })
 );
 
