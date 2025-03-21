@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const MySQLStore = require("express-mysql-session")(session);
 const sessionStore = new MySQLStore(Bdd);
+const jwt = require("jsonwebtoken");
 
 router.use(bodyParser.json());
 router.use(cookieParser());
@@ -25,32 +26,41 @@ router.use(
 
 // Connexion de l'utilisateur au système
 router.post("/login", (req, res) => {
+  const { email, password } = req.body;
   const sql = "SELECT * FROM users WHERE email = ? AND mdp = ?";
-  Bdd.query(sql, [req.body.email, req.body.password], (err, result) => {
+
+  Bdd.query(sql, [email, password], (err, result) => {
     if (err) return res.json(err);
+
     if (result.length > 0) {
-      req.session.role = result[0].role;
-      req.session.nomUser = result[0].nomUser;
-      return res.json({ Login: true });
+      const id = result[0].idUser;
+      const token = jwt.sign({ id }, process.env.SECRET_KEY, {
+        expiresIn: 300,
+      });
+      return res.json({ Login: true, token, result });
     } else {
       return res.json({ Login: false });
     }
   });
-
-  console.log("session", req.session);
 });
 
-// Récupération du nom de l'utilisateur connecté
-router.get("/authentification", (req, res) => {
-  if (req.session.nomUser) {
-    return res.json({
-      valid: true,
-      nomUser: req.session.nomUser,
-      role: req.session.role,
-    });
+const verifJwt = (req, res, next) => {
+  const token = req.headers["access-token"];
+
+  if (!token) {
+    return res.json({ Message: "Prière de vous authentifier" });
   } else {
-    return res.json({ valid: false });
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+      if (err) return res.json({ Message: "Non connecté" });
+      return (req.idUser = decoded.id);
+      next();
+    });
   }
+};
+
+// Récupération du nom de l'utilisateur connecté
+router.get("/authentification", verifJwt, (req, res) => {
+  return res.json({ valid: true });
 });
 
 // DECONNEXION
