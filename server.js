@@ -31,7 +31,7 @@ app.use("/api/", categRoutes);
 app.use("/api/", loginRoutes);
 app.use("/api/", usersRoutes);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8085;
 app.listen(port, () => {
   console.log(`Le serveur est actif au port ${port}`);
 });
