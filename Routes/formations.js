@@ -3,6 +3,7 @@ const router = express.Router();
 const bdd = require("../bdd/bdd");
 const multer = require("multer");
 const path = require("path");
+const uuid = require("uuid").v4;
 
 // CREATION D'UNE FORMATION
 // Stockage des fichiers (IMAGES) des formations
@@ -26,21 +27,18 @@ router.post(
   "/ajoutFormation",
   uploadImageFormation.single("image"),
   (req, res) => {
-    const { id, image, intitule, description, categ } = req.body;
-    const idForm = "formation_" + id;
+    const { intitule, description } = req.body;
+    const image = req.file.filename;
+    const idForm = "formation_" + uuid();
     const sql =
-      "INSERT INTO formation (idFormation, imageFormation, intituleFormation, descriFormation, categorie) VALUES (?)";
-    bdd.query(
-      sql,
-      [idForm, image, intitule, description, categorie],
-      (err, resultat) => {
-        if (err) {
-          res.status(400).json(err);
-        } else {
-          res.status(200).json(resultat);
-        }
+      "INSERT INTO formation (idFormation, imageFormation, intituleFormation, descriptFormation) VALUES (?, ?, ?, ?)";
+    bdd.query(sql, [idForm, image, intitule, description], (err, resultat) => {
+      if (err) {
+        res.status(400).json(err);
+      } else {
+        res.status(200).json(resultat);
       }
-    );
+    });
   }
 );
 
@@ -57,8 +55,8 @@ router.get("/listFormations", (req, res) => {
 });
 
 // RECUPERATION D'UNE FORMATION
-router.get("/detailsFormation/:id", (req, res) => {
-  const id = req.params.id;
+router.get("/detailsFormation/:idFormation", (req, res) => {
+  const id = req.params.idFormation;
   const sql = "SELECT * FROM formation WHERE idFormation = ?";
   bdd.query(sql, [id], (err, resultat) => {
     if (err) {
@@ -70,27 +68,19 @@ router.get("/detailsFormation/:id", (req, res) => {
 });
 
 // MODIFICATION D'UNE FORMATION
-router.put(
-  "/modifFormation/:id",
-  uploadImageFormation.single("image"),
-  (req, res) => {
-    const id = req.params.id;
-    const { image, intitule, description, categorie } = req.body;
-    const sql =
-      "UPDATE formation SET imageFormation = ?, intituleFormation = ?, descriFormation = ?, categorie = ? WHERE idFormation = ?";
-    bdd.query(
-      sql,
-      [image, intitule, description, categorie, id],
-      (err, resultat) => {
-        if (err) {
-          res.status(400).json(err);
-        } else {
-          res.status(200).json(resultat);
-        }
-      }
-    );
-  }
-);
+router.put("/modifFormation/:idFormation", (req, res) => {
+  const id = req.params.idFormation;
+  const { intitule, description } = req.body;
+  const sql =
+    "UPDATE formation SET intituleFormation = ?, descriptFormation = ? WHERE idFormation = ?";
+  bdd.query(sql, [intitule, description, id], (err, resultat) => {
+    if (err) {
+      res.status(400).json(err);
+    } else {
+      res.status(200).json(resultat);
+    }
+  });
+});
 
 // SUPPRESSION D'UNE FORMATION
 router.delete("/suppFormation/:id", (req, res) => {

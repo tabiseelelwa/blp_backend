@@ -24,6 +24,7 @@ const articlesRoutes = require("./Routes/article");
 const categRoutes = require("./Routes/categorie");
 const loginRoutes = require("./Routes/login");
 const usersRoutes = require("./Routes/user");
+const aboutRoutes = require("./Routes/about");
 
 // LES APPELS DES ROUTES
 app.use("/api/", formationsRoutes);
@@ -31,6 +32,7 @@ app.use("/api/", articlesRoutes);
 app.use("/api/", categRoutes);
 app.use("/api/", loginRoutes);
 app.use("/api/", usersRoutes);
+app.use("/api/", aboutRoutes);
 
 const port = process.env.PORT || 8085;
 app.listen(port, () => {
