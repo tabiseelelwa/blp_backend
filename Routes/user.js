@@ -63,12 +63,11 @@ router.get("/listUsers", (req, res) => {
 });
 
 // RECUPERATION D'UN UTILISATEUR
-router.get("/user/:idUser", (req, res) => {
+router.get("/detailsUser/:idUser", (req, res) => {
+  const idUser = req.params.idUser;
   const sql = "SELECT * FROM users WHERE idUser = ?";
 
-  const idUser = req.params.idUser;
-
-  bdd.query(sql, idUser, (err, result) => {
+  bdd.query(sql, [idUser], (err, result) => {
     if (err) return res.json(err);
     return res.json(result);
   });
@@ -79,18 +78,11 @@ router.put("/modifUser/:idUser", (req, res) => {
   const idUser = req.params.idUser;
 
   const sql =
-    "UPDATE users SET nomUser = ?, prenomUser = ?, email = ?, password = ?, role = ? WHERE idUser = ?";
+    "UPDATE users SET nomUser = ?, postnomUser = ?, prenomUser = ?, email = ? WHERE idUser = ?";
 
   bdd.query(
     sql,
-    [
-      req.body.nom,
-      req.body.prenom,
-      req.body.email,
-      req.body.password,
-      req.body.role,
-      idUser,
-    ],
+    [req.body.nom, req.body.postnom, req.body.prenom, req.body.email, idUser],
     (err, resultat) => {
       if (err) return res.json(err);
       return res.json(resultat);

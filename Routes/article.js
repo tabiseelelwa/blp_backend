@@ -58,6 +58,18 @@ router.get("/listArticles", (req, res) => {
   });
 });
 
+router.get("/listAnnonces", (req, res) => {
+  const categ = "Annonce";
+  const sql = "SELECT * FROM articles WHERE Categorie = ?";
+  bdd.query(sql, [categ], (err, resultat) => {
+    if (err) {
+      res.status(400).json(err);
+    } else {
+      res.status(200).json(resultat);
+    }
+  });
+});
+
 // RECUPERATION D'UN ARTICLE
 router.get("/detailsArticle/:idArticle", (req, res) => {
   const id = req.params.idArticle;

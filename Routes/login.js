@@ -87,7 +87,7 @@ const verifJwt = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.json({ Message: "Prière de vous authentifier" });
+    return res.json({ Message: "Prière de vous connecter" });
   } else {
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
       if (err) {

@@ -22,9 +22,18 @@ router.get("/listApropos", (req, res) => {
   });
 });
 
+router.get("/apropos/:idAbout", (req, res) => {
+  const id = req.params.idAbout;
+  const requete = "SELECT * FROM about_fzt WHERE idAbout = ?";
+  bdd.query(requete, [id], (err, resultats) => {
+    if (err) return res.json(err);
+    return res.json(resultats);
+  });
+});
+
 router.put("/modifApropos/:id", (req, res) => {
   const id = req.params.id;
-  const requete = "UPDATE about_fzt SET contenu = ? WHERE idAbout = ?";
+  const requete = "UPDATE about_fzt SET description = ? WHERE idAbout = ?";
   bdd.query(requete, [req.body.contenu, id], (err, resultats) => {
     if (err) return res.json(err);
     return res.json(resultats);
