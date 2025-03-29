@@ -111,8 +111,7 @@ router.get("/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
-    domain: process.env.ORIGIN_URL,
+    sameSite: "lax",
   });
   return res.json("success");
 });
